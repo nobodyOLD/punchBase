@@ -1,0 +1,17 @@
+{
+    "accountAssociation": {
+        "header": "eyJmaWQiOiA0MjAsICJ0eXBlIjogImN1c3RvZHkiLCAia2V5IjogIjB4MDAwLi4uIn0",
+        "payload": "eyJkb21haW4iOiAicHVuY2hiYXNlLXZlcmNlbC5hcHAifQ",
+        "signature": "MHgwMDAuLi4"
+    },
+    "frame": {
+        "version": "1",
+        "name": "PunchBase",
+        "iconUrl": "https://punchbase-vercel.app/icon.png",
+        "homeUrl": "https://punchbase-vercel.app",
+        "imageUrl": "https://punchbase-vercel.app/og-image.png",
+        "buttonTitle": "Enter Arena",
+        "splashImageUrl": "https://punchbase-vercel.app/splash.png",
+        "splashBackgroundColor": "#050a1a"
+    }
+}
