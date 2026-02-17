@@ -26,10 +26,10 @@ export default function Leaderboard() {
     // Fetch details for each fighter
     const { data: fightersData } = useReadContracts({
         contracts: (addresses || []).map((addr) => ({
-            address: PUNCH_BASE_CONTRACT_ADDRESS,
+            address: PUNCH_BASE_CONTRACT_ADDRESS as `0x${string}`,
             abi: PUNCH_BASE_ABI,
             functionName: 'getFighter',
-            args: [addr],
+            args: [addr as `0x${string}`],
         })),
         query: { enabled: !!addresses && addresses.length > 0 && !isDemo }
     })

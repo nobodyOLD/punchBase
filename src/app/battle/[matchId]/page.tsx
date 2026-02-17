@@ -40,35 +40,32 @@ export default function BattleArena() {
     }
 
     const { data: contractMatch } = useReadContract({
-        address: PUNCH_BASE_CONTRACT_ADDRESS,
+        address: PUNCH_BASE_CONTRACT_ADDRESS as `0x${string}`,
         abi: PUNCH_BASE_ABI,
         functionName: 'getMatch',
-        args: [safeMatchId],
-        query: {
-            refetchInterval: 2000,
-            enabled: !isDemo && !!matchId
-        }
+        args: safeMatchId ? [safeMatchId] : undefined,
+        query: { enabled: !!safeMatchId && !isDemo }
     })
 
     const { data: contractPlayer1Fighter } = useReadContract({
-        address: PUNCH_BASE_CONTRACT_ADDRESS,
+        address: PUNCH_BASE_CONTRACT_ADDRESS as `0x${string}`,
         abi: PUNCH_BASE_ABI,
         functionName: 'getFighter',
-        args: [contractMatch?.player1 as `0x${string}`],
+        args: contractMatch?.player1 ? [contractMatch.player1 as `0x${string}`] : undefined,
         query: { enabled: !!contractMatch?.player1 && !isDemo }
     })
 
     const { data: contractPlayer2Fighter } = useReadContract({
-        address: PUNCH_BASE_CONTRACT_ADDRESS,
+        address: PUNCH_BASE_CONTRACT_ADDRESS as `0x${string}`,
         abi: PUNCH_BASE_ABI,
         functionName: 'getFighter',
-        args: [contractMatch?.player2 as `0x${string}`],
+        args: contractMatch?.player2 ? [contractMatch.player2 as `0x${string}`] : undefined,
         query: { enabled: !!contractMatch?.player2 && !isDemo }
     })
 
     // Listen for turns on-chain
     useWatchContractEvent({
-        address: PUNCH_BASE_CONTRACT_ADDRESS,
+        address: PUNCH_BASE_CONTRACT_ADDRESS as `0x${string}`,
         abi: PUNCH_BASE_ABI,
         eventName: 'TurnTaken',
         enabled: !isDemo && !!contractMatch,
