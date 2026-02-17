@@ -1,17 +1,17 @@
 {
     "accountAssociation": {
         "header": "eyJmaWQiOiA0MjAsICJ0eXBlIjogImN1c3RvZHkiLCAia2V5IjogIjB4MDAwLi4uIn0",
-        "payload": "eyJkb21haW4iOiAicHVuY2gtYmFzZS1kbnQ4ejdsYmstbm9ib2R5cy1wcm9qZWN0cy1hM2FjN2NiZi52ZXJjZWwuYXBwIn0",
+        "payload": "eyJkb21haW4iOiAicHVuY2gtYmFzZS52ZXJjZWwuYXBwIn0",
         "signature": "MHgwMDAuLi4"
     },
     "frame": {
         "version": "1",
         "name": "PunchBase",
-        "iconUrl": "https://punch-base-dnt8z7lbk-nobodys-projects-a3ac7cbf.vercel.app/icon.png",
-        "homeUrl": "https://punch-base-dnt8z7lbk-nobodys-projects-a3ac7cbf.vercel.app",
-        "imageUrl": "https://punch-base-dnt8z7lbk-nobodys-projects-a3ac7cbf.vercel.app/og-image.png",
+        "iconUrl": "https://punch-base.vercel.app/icon.png",
+        "homeUrl": "https://punch-base.vercel.app",
+        "imageUrl": "https://punch-base.vercel.app/og-image.png",
         "buttonTitle": "Enter Arena",
-        "splashImageUrl": "https://punch-base-dnt8z7lbk-nobodys-projects-a3ac7cbf.vercel.app/splash.png",
+        "splashImageUrl": "https://punch-base.vercel.app/splash.png",
         "splashBackgroundColor": "#050a1a"
     }
 }
