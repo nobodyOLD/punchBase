@@ -21,7 +21,7 @@ export default function Lobby() {
     // In a real app, we'd index events. For now, we'll use a few "known" match IDs or just mock for demo.
     // Actually, let's try to get the fighter's wins/losses.
     const { data: contractFighter } = useReadContract({
-        address: PUNCH_BASE_CONTRACT_ADDRESS,
+        address: PUNCH_BASE_CONTRACT_ADDRESS as `0x${string}`,
         abi: PUNCH_BASE_ABI,
         functionName: 'getFighter',
         args: [address as `0x${string}`],
