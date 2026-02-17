@@ -7,7 +7,6 @@ export const config = createConfig({
     chains: [base, baseSepolia, hardhat],
     connectors: [
         farcasterFrame(),
-        injected(),
     ],
     transports: {
         [base.id]: http(),

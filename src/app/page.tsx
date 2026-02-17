@@ -37,16 +37,12 @@ export default function Home() {
             </>
           ) : (
             <div className="connection-options">
-              {connectors.map((connector) => (
-                <button
-                  key={connector.uid}
-                  onClick={() => connect({ connector })}
-                  className="btn-primary"
-                >
-                  Connect {connector.name}
-                </button>
-              ))}
-              <button onClick={startDemo} className="btn-demo">Test with Demo Account</button>
+              <button
+                onClick={() => connect({ connector: connectors.find(c => c.id === 'farcaster')! })}
+                className="btn-primary"
+              >
+                Connect Farcaster
+              </button>
             </div>
           )}
         </div>
