@@ -7,11 +7,11 @@
     "frame": {
         "version": "1",
         "name": "PunchBase",
-        "iconUrl": "https://punchbase-vercel.app/icon.png",
-        "homeUrl": "https://punchbase-vercel.app",
-        "imageUrl": "https://punchbase-vercel.app/og-image.png",
+        "iconUrl": "https://punch-base-dnt8z7lbk-nobodys-projects-a3ac7cbf.vercel.app/icon.png",
+        "homeUrl": "https://punch-base-dnt8z7lbk-nobodys-projects-a3ac7cbf.vercel.app",
+        "imageUrl": "https://punch-base-dnt8z7lbk-nobodys-projects-a3ac7cbf.vercel.app/og-image.png",
         "buttonTitle": "Enter Arena",
-        "splashImageUrl": "https://punchbase-vercel.app/splash.png",
+        "splashImageUrl": "https://punch-base-dnt8z7lbk-nobodys-projects-a3ac7cbf.vercel.app/splash.png",
         "splashBackgroundColor": "#050a1a"
     }
 }

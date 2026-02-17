@@ -12,14 +12,14 @@ export const metadata: Metadata = {
   other: {
     "fc:frame": JSON.stringify({
       version: "next",
-      imageUrl: "https://punchbase-vercel.app/og-image.png",
+      imageUrl: "https://punch-base-dnt8z7lbk-nobodys-projects-a3ac7cbf.vercel.app/og-image.png",
       button: {
         title: "Enter Arena",
         action: {
           type: "launch_frame",
           name: "PunchBase",
-          url: "https://punchbase-vercel.app",
-          splashImageUrl: "https://punchbase-vercel.app/splash.png",
+          url: "https://punch-base-dnt8z7lbk-nobodys-projects-a3ac7cbf.vercel.app",
+          splashImageUrl: "https://punch-base-dnt8z7lbk-nobodys-projects-a3ac7cbf.vercel.app/splash.png",
           splashBackgroundColor: "#050a1a",
         },
       },
