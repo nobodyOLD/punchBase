@@ -54,10 +54,13 @@ export default function Leaderboard() {
 
     const leaderboardData = isDemo
         ? mockFighters
-        : (fightersData || []).map((f, i) => ({
-            ...(f.result as any),
-            owner: addresses?.[i]
-        })).sort((a, b) => Number(b.wins) - Number(a.wins));
+        : (fightersData || [])
+            .filter(f => f.status === 'success' && f.result)
+            .map((f, i) => ({
+                ...(f.result as any),
+                owner: addresses?.[i]
+            }))
+            .sort((a, b) => Number(b.wins || 0) - Number(a.wins || 0));
 
     if (!mounted) return <div className="leaderboard-page" />
 
