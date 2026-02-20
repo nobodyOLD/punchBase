@@ -112,7 +112,7 @@ export default function BattleArena() {
         winner: '0x0000000000000000000000000000000000000000'
     })
 
-    if (!mounted) return <div className="loading-screen">Booting Arena...</div>
+    if (!mounted) return <div className="loading-screen" style={{ background: '#050a1a', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>Booting Arena...</div>
 
     const match = isDemo ? mockMatch : contractMatch;
     const player1Fighter = isDemo ? { name: 'Demo Hero' } : contractPlayer1Fighter;

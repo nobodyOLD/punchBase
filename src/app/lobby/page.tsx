@@ -38,7 +38,7 @@ export default function Lobby() {
 
     const [opponentAddr, setOpponentAddr] = useState('')
 
-    if (!mounted) return <div className="container" />
+    if (!mounted) return <div className="lobby-container" style={{ background: '#050a1a', minHeight: '100vh' }} />
 
     const handleChallenge = () => {
         if (isDemo) {

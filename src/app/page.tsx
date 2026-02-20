@@ -23,7 +23,7 @@ export default function Home() {
     router.push('/lobby')
   }
 
-  if (!mounted) return <div className="container" />
+  if (!mounted) return <div className="container" style={{ background: '#050a1a', minHeight: '100vh' }} />
 
   return (
     <main className="container">
