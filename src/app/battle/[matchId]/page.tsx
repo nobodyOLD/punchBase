@@ -229,11 +229,13 @@ export default function BattleArena() {
                     </div>
                     <div className="fighter-info">
                         <h3>{player1Fighter?.name || '...'}</h3>
-                        <p>{match.player1.slice(0, 6)}...{match.player1.slice(-4)}</p>
+                        <p className="wallet-addr">{match.player1.slice(0, 6)}...{match.player1.slice(-4)}</p>
                     </div>
                 </div>
 
-                <div className="vs">VS</div>
+                <div className="vs-container">
+                    <div className="vs">VS</div>
+                </div>
 
                 <div className={`fighter-slot ${match.player2Health === 0n ? 'knocked-out' : ''} ${isP2Hit ? 'hit-shake' : ''}`}>
                     <div className="hp-bar"><div className="hp-fill" style={{ width: `${Number(match.player2Health)}%` }}></div></div>
@@ -242,7 +244,7 @@ export default function BattleArena() {
                     </div>
                     <div className="fighter-info">
                         <h3>{player2Fighter?.name || '...'}</h3>
-                        <p>{match.player2.slice(0, 6)}...{match.player2.slice(-4)}</p>
+                        <p className="wallet-addr">{match.player2.slice(0, 6)}...{match.player2.slice(-4)}</p>
                     </div>
                 </div>
             </div>
@@ -276,76 +278,181 @@ export default function BattleArena() {
             )}
 
             <style jsx>{`
-        .arena { min-height: 100vh; background: radial-gradient(circle at center, #0a1435 0%, #050a1a 100%); color: white; padding: 2rem; font-family: 'Inter', sans-serif; position: relative; overflow: hidden; }
-        .arena-header { display: flex; justify-content: space-between; align-items: center; z-index: 10; position: relative; }
-        .btn-back { background: rgba(255,255,255,0.1); border: none; color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
-        .turn-indicator { font-size: 1.5rem; font-weight: 800; color: #888; }
-        .turn-indicator .active { color: #00FF85; text-shadow: 0 0 10px rgba(0,255,133,0.5); }
-        .fighters-stage { display: flex; justify-content: space-around; align-items: center; margin-top: 4rem; position: relative; }
-        .fighter-slot { text-align: center; width: 320px; transition: all 0.3s; position: relative; }
+        .arena { 
+            min-height: 100vh; 
+            background: radial-gradient(circle at center, #0a1435 0%, #050a1a 100%); 
+            color: white; 
+            padding: 1rem; 
+            font-family: 'Inter', sans-serif; 
+            position: relative; 
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .arena-header { display: flex; justify-content: space-between; align-items: center; z-index: 10; padding: 0.5rem; }
+        .btn-back { background: rgba(255,255,255,0.1); border: none; color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.8rem; }
+        .turn-indicator { font-size: 1.1rem; font-weight: 800; color: #888; text-align: center; flex: 1; margin: 0 1rem; }
+        .turn-indicator .active { color: #00FF85; text-shadow: 0 0 10px rgba(0,255,133,0.5); animation: pulse-text 1.5s infinite alternate; }
+        
+        @keyframes pulse-text { from { opacity: 0.7; } to { opacity: 1; } }
+
+        .fighters-stage { 
+            display: flex; 
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center; 
+            margin-top: 1rem; 
+            position: relative; 
+            flex: 1;
+        }
+        .fighter-slot { text-align: center; width: 100%; max-width: 280px; transition: all 0.3s; position: relative; }
         .knocked-out { opacity: 0.5; filter: grayscale(1); transform: scale(0.9); }
-        .hp-bar { height: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        
+        .hp-bar { height: 10px; background: rgba(255,255,255,0.05); border-radius: 5px; overflow: hidden; margin-bottom: 0.75rem; border: 1px solid rgba(255,255,255,0.1); }
         .hp-fill { height: 100%; background: linear-gradient(90deg, #00FF85, #00C2FF); transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         
-        .fighter-sprite-container { height: 350px; display: flex; align-items: flex-end; justify-content: center; margin-bottom: 1rem; }
-        .fighter-sprite { height: 100%; object-fit: contain; filter: drop-shadow(0 0 30px rgba(0,82,255,0.2)); animation: idle-breath 3s ease-in-out infinite; }
+        .fighter-sprite-container { 
+            height: 220px; 
+            display: flex; 
+            align-items: flex-end; 
+            justify-content: center; 
+            margin-bottom: 0.5rem;
+            background: linear-gradient(180deg, rgba(0,82,255,0.05) 0%, rgba(0,0,0,0) 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .fighter-sprite { max-height: 100%; width: auto; object-fit: contain; filter: drop-shadow(0 0 20px rgba(0,82,255,0.2)); animation: idle-breath 3s ease-in-out infinite; z-index: 2; }
         .p2-sprite { transform: scaleX(-1); }
         
-        .vs { font-size: 4rem; font-weight: 900; color: #ff3e3e; font-style: italic; opacity: 0.8; }
+        .vs-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; pointer-events: none; }
+        .vs { font-size: 3rem; font-weight: 900; color: #ff3e3e; font-style: italic; opacity: 0.6; text-shadow: 0 0 20px rgba(255,62,62,0.4); }
         
         @keyframes idle-breath {
             0%, 100% { transform: translateY(0) scale(1.0); }
-            50% { transform: translateY(-10px) scale(1.02); }
+            50% { transform: translateY(-5px) scale(1.01); }
         }
         .p2-sprite.fighter-sprite { animation-name: idle-breath-p2; }
         @keyframes idle-breath-p2 {
             0%, 100% { transform: scaleX(-1) translateY(0) scale(1.0); }
-            50% { transform: scaleX(-1) translateY(-10px) scale(1.02); }
+            50% { transform: scaleX(-1) translateY(-5px) scale(1.01); }
         }
 
-        .attack-dash-p1 { animation: dash-p1 0.4s ease-in-out; }
-        @keyframes dash-p1 {
-            0% { transform: translateX(0); }
-            40% { transform: translateX(100px); }
-            100% { transform: translateX(0); }
-        }
+        .fighter-info h3 { font-size: 1.2rem; margin-bottom: 0.2rem; font-weight: 700; }
+        .wallet-addr { font-size: 0.8rem; color: #888; font-family: monospace; }
 
-        .attack-dash-p2 { animation: dash-p2 0.4s ease-in-out; }
-        @keyframes dash-p2 {
-            0% { transform: scaleX(-1) translateX(0); }
-            40% { transform: scaleX(-1) translateX(100px); }
-            100% { transform: scaleX(-1) translateX(0); }
+        .battle-area-bottom { 
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding-bottom: 0.5rem;
+            margin-top: 1rem;
         }
+        .battle-log { 
+            background: rgba(0,0,0,0.6); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 16px; 
+            padding: 0.75rem; 
+            height: 140px; 
+            overflow-y: auto; 
+            font-family: 'Inter', monospace; 
+            font-size: 0.8rem;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .log-entry { margin-bottom: 0.4rem; padding: 0.5rem; border-radius: 8px; border-left: 3px solid transparent; }
+        .log-entry.hit { background: rgba(255, 62, 62, 0.08); color: #ff8e8e; border-left-color: #ff3e3e; }
+        .log-entry.defend { background: rgba(0, 82, 255, 0.08); color: #8eb1ff; border-left-color: #0052FF; }
+
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+        .btn-action { width: 100%; padding: 1rem; font-size: 1.1rem; font-weight: 800; border-radius: 16px; border: none; cursor: pointer; transition: all 0.2s; outline: none; }
+        .btn-action:active { transform: scale(0.95); }
+        .btn-action:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
+        .attack { background: linear-gradient(135deg, #ff3e3e, #8b0000); color: white; box-shadow: 0 4px 15px rgba(255, 62, 62, 0.3); }
+        .defend { background: linear-gradient(135deg, #0052FF, #002266); color: white; box-shadow: 0 4px 15px rgba(0, 82, 255, 0.3); }
         
-        .battle-area-bottom { display: grid; grid-template-columns: 1fr 400px; gap: 2rem; margin-top: 4rem; align-items: end; }
-        .battle-log { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 1.5rem; height: 180px; overflow-y: auto; font-family: 'Monaco', monospace; scroll-behavior: smooth; }
-        .log-entry { margin-bottom: 0.5rem; font-size: 0.9rem; padding: 0.5rem; border-radius: 8px; animation: fadeIn 0.3s ease-out; }
-        .log-entry.hit { background: rgba(255, 62, 62, 0.1); color: #ff6e6e; border-left: 4px solid #ff3e3e; }
-        .log-entry.defend { background: rgba(0, 82, 255, 0.1); color: #6eb1ff; border-left: 4px solid #0052FF; }
-        .log-empty { color: #555; text-align: center; margin-top: 3rem; font-style: italic; }
+        @media (min-width: 768px) {
+            .arena { padding: 2rem; gap: 2rem; }
+            .arena-header { padding: 0; }
+            .turn-indicator { font-size: 1.5rem; }
+            .fighters-stage { flex-direction: row; justify-content: space-around; margin-top: 2rem; }
+            .fighter-slot { max-width: 320px; }
+            .fighter-sprite-container { height: 380px; }
+            .vs { font-size: 6rem; opacity: 0.3; }
+            .vs-container { position: relative; top: auto; left: auto; transform: none; padding-top: 4rem; }
+            .battle-area-bottom { display: grid; grid-template-columns: 1fr 340px; gap: 2rem; align-items: end; }
+            .battle-log { height: 200px; font-size: 0.95rem; }
+            .controls { display: flex; flex-direction: column; gap: 1rem; }
+            .btn-action { padding: 1.5rem; font-size: 1.5rem; }
+        }
 
-        .controls { display: flex; flex-direction: column; gap: 1rem; }
-        .btn-action { width: 100%; padding: 1.25rem; font-size: 1.5rem; font-weight: 800; border-radius: 20px; border: none; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .attack { background: #ff3e3e; color: white; }
-        .defend { background: #0052FF; color: white; }
-        .btn-action:hover:not(:disabled) { transform: translateY(-3px); filter: brightness(1.1); }
-        .btn-action:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+        .hit-shake { animation: hit-shake 0.3s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes hit-shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        .overlay { position: fixed; inset: 0; background: rgba(5, 10, 26, 0.95); display: flex; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(10px); }
+        .result-modal { background: #1a1a2e; padding: 3rem; border-radius: 40px; text-align: center; border: 1px solid rgba(255,255,255,0.1); max-width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .result-modal h2 { font-size: 3rem; margin-bottom: 0.5rem; font-weight: 900; background: linear-gradient(135deg, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-primary { background: #0052FF; color: white; border: none; padding: 1.25rem 2.5rem; border-radius: 16px; font-weight: 800; cursor: pointer; font-size: 1.1rem; margin-top: 1.5rem; transition: all 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,82,255,0.3); }
+
+        .battle-area-bottom { 
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .battle-log { 
+            background: rgba(0,0,0,0.6); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 16px; 
+            padding: 0.75rem; 
+            height: 140px; 
+            overflow-y: auto; 
+            font-family: 'Inter', monospace; 
+            font-size: 0.8rem;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .log-entry { margin-bottom: 0.4rem; padding: 0.5rem; border-radius: 8px; border-left: 3px solid transparent; }
+        .log-entry.hit { background: rgba(255, 62, 62, 0.08); color: #ff8e8e; border-left-color: #ff3e3e; }
+        .log-entry.defend { background: rgba(0, 82, 255, 0.08); color: #8eb1ff; border-left-color: #0052FF; }
+
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+        .btn-action { width: 100%; padding: 1rem; font-size: 1.1rem; font-weight: 800; border-radius: 16px; border: none; cursor: pointer; transition: all 0.2s; }
+        .attack { background: #ff3e3e; color: white; box-shadow: 0 4px 15px rgba(255, 62, 62, 0.2); }
+        .defend { background: #0052FF; color: white; box-shadow: 0 4px 15px rgba(0, 82, 255, 0.2); }
         
+        @media (min-width: 768px) {
+            .arena { padding: 2rem; }
+            .arena-header { padding: 1rem; }
+            .turn-indicator { font-size: 1.5rem; }
+            .fighters-stage { margin-top: 4rem; }
+            .fighter-sprite-container { height: 350px; }
+            .vs { font-size: 4rem; }
+            .battle-area-bottom { display: grid; grid-template-columns: 1fr 400px; gap: 2rem; margin-top: 4rem; }
+            .battle-log { height: 180px; font-size: 0.9rem; }
+            .controls { display: flex; flex-direction: column; }
+            .btn-action { padding: 1.25rem; font-size: 1.5rem; }
+        }
+
+        .hit-shake { animation: hit-shake 0.2s ease-in-out infinite; }
         @keyframes hit-shake {
             0% { transform: translateX(0); }
-            25% { transform: translateX(-15px); }
-            50% { transform: translateX(15px); }
-            75% { transform: translateX(-15px); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
             100% { transform: translateX(0); }
         }
-        .hit-shake { animation: hit-shake 0.2s ease-in-out infinite; color: #ff3e3e; }
-        
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(8px); }
-        .result-modal { background: #1a1a2e; padding: 4rem; border-radius: 40px; text-align: center; border: 2px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .result-modal h2 { font-size: 4rem; margin-bottom: 1rem; font-weight: 900; background: linear-gradient(to bottom, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .btn-primary { background: #0052FF; color: white; border: none; padding: 1.5rem 3rem; border-radius: 16px; font-weight: 800; cursor: pointer; font-size: 1.2rem; margin-top: 2rem; }
+        .result-modal { background: #1a1a2e; padding: 2rem; border-radius: 32px; text-align: center; border: 1px solid #333; max-width: 90%; }
+        .result-modal h2 { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 900; }
+        .btn-primary { background: #0052FF; color: white; border: none; padding: 1rem 2rem; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 1rem; margin-top: 1rem; }
       `}</style>
         </div>
     )
