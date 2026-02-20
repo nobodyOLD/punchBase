@@ -29,7 +29,11 @@ export function Providers({ children }: { children: ReactNode }) {
         const saved = localStorage.getItem('punchbase_demo')
         if (saved === 'true') setIsDemo(true)
 
-        sdk.actions.ready()
+        try {
+            sdk.actions.ready()
+        } catch (e) {
+            console.warn("Farcaster SDK not available", e)
+        }
     }, [])
 
     const handleSetDemo = (val: boolean) => {

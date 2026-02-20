@@ -37,12 +37,21 @@ export default function Home() {
             </>
           ) : (
             <div className="connection-options">
-              <button
-                onClick={() => connect({ connector: connectors.find(c => c.id === 'farcaster')! })}
-                className="btn-primary"
-              >
-                Connect Farcaster
-              </button>
+              {connectors.find(c => c.id === 'farcaster') ? (
+                <button
+                  onClick={() => connect({ connector: connectors.find(c => c.id === 'farcaster')! })}
+                  className="btn-primary"
+                >
+                  Connect Farcaster
+                </button>
+              ) : (
+                <button
+                  onClick={() => connect({ connector: connectors[0] })}
+                  className="btn-primary"
+                >
+                  Connect Wallet
+                </button>
+              )}
             </div>
           )}
         </div>
