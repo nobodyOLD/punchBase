@@ -79,63 +79,192 @@ export default function Lobby() {
     )
 
     return (
-        <div className="container">
-            <header className="header">
-                <h1 onClick={() => router.push('/')} style={{ cursor: 'pointer' }}>PunchBase</h1>
-                <div className="header-actions">
-                    <button onClick={() => router.push('/leaderboard')} className="btn-secondary">Leaderboard 🏆</button>
-                    <div className="stats">
-                        <span>{fighter?.name || 'No Fighter'}</span>
-                        <span>Wins: {Number(fighter?.wins || 0)}</span>
-                        <span>Losses: {Number(fighter?.losses || 0)}</span>
+        <div className="lobby-container">
+            <header className="lobby-header">
+                <h1 onClick={() => router.push('/')} className="logo">PunchBase</h1>
+                <div className="header-right">
+                    <button onClick={() => router.push('/leaderboard')} className="btn-leader">Leaderboard 🏆</button>
+                    <div className="player-badge">
+                        <span className="player-name">{fighter?.name || 'No Fighter'}</span>
+                        <div className="player-record">
+                            <span className="win-count">{Number(fighter?.wins || 0)}W</span>
+                            <span className="loss-count">{Number(fighter?.losses || 0)}L</span>
+                        </div>
                     </div>
                 </div>
             </header>
 
-            <div className="lobby-content">
-                <section className="challenge-form">
+            <main className="lobby-grid">
+                <section className="lobby-card challenge-card">
                     <h2>Challenge a Player</h2>
-                    <input
-                        type="text"
-                        placeholder="Opponent Address (0x...)"
-                        value={opponentAddr}
-                        onChange={(e) => setOpponentAddr(e.target.value)}
-                    />
-                    <button onClick={handleChallenge} className="btn-primary">Send Challenge</button>
+                    <p className="card-desc">Enter a wallet address to issue a direct challenge.</p>
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            placeholder="Opponent Address (0x...)"
+                            value={opponentAddr}
+                            onChange={(e) => setOpponentAddr(e.target.value)}
+                        />
+                        <button onClick={handleChallenge} className="btn-action-primary">Send Challenge</button>
+                    </div>
                 </section>
 
-                <section className="pending-challenges">
+                <section className="lobby-card pending-card">
                     <h2>Nearby Challenges</h2>
-                    {/* Mock for demo if no events found */}
-                    <div className="challenge-item">
-                        <span>Opponent: 0x123...456</span>
-                        <button onClick={() => handleAccept(0n)} className="btn-small">Accept & Fight</button>
+                    <div className="challenges-list">
+                        <div className="challenge-item">
+                            <div className="opp-info">
+                                <span className="label">Opponent</span>
+                                <span className="addr">0x123...456</span>
+                            </div>
+                            <button onClick={() => handleAccept(0n)} className="btn-accept">Accept & Fight</button>
+                        </div>
+                        <p className="hint">Note: Match ID 0 is available for instant testing.</p>
                     </div>
-                    <p className="hint">Note: In this MVP, manually enter match ID 0 to test if needed, or wait for events.</p>
                 </section>
-            </div>
+            </main>
 
             <style jsx>{`
-        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; padding-bottom: 1rem; border-bottom: 1px solid #111a33; }
-        h1 { color: #0052FF; font-weight: 900; font-size: 2rem; }
-        .header-actions { display: flex; align-items: center; gap: 2rem; }
-        .stats { background: #0a1428; padding: 0.75rem 1.5rem; border-radius: 16px; border: 1px solid #111a33; }
-        .stats span { margin-left: 1rem; font-weight: 700; color: #fff; font-size: 0.9rem; }
-        .stats span:first-child { margin-left: 0; color: #00FF85; }
-        .lobby-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
-        h2 { margin-bottom: 2rem; font-size: 1.5rem; font-weight: 800; }
-        input { width: 100%; padding: 1.25rem; border: 2px solid #111a33; background: #050a1a; color: white; border-radius: 16px; margin-bottom: 1rem; }
-        .challenge-item { 
-          background: #0a1428; padding: 1.5rem; border-radius: 20px; border: 1px solid #111a33;
-          display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;
+        .lobby-container { 
+            min-height: 100vh; 
+            background: #050a1a;
+            color: white; 
+            padding: 1.5rem; 
+            font-family: 'Inter', sans-serif;
         }
-        .btn-primary { background: #0052FF; color: white; border: none; padding: 1rem 2rem; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; transition: all 0.2s; }
-        .btn-primary:hover { background: #0042CC; transform: translateY(-2px); }
-        .btn-secondary { background: #111a33; border: 1px solid #222; color: white; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .btn-secondary:hover { border-color: #0052FF; }
-        .btn-small { background: #00C2FF; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 10px; font-weight: 700; cursor: pointer; }
-        .hint { color: #444; font-size: 0.8rem; margin-top: 2rem; }
+        
+        .lobby-header { 
+            display: flex; 
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem; 
+            padding-bottom: 1.5rem; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+        }
+        
+        .logo { 
+            color: #0052FF; 
+            font-weight: 900; 
+            font-size: 2rem; 
+            margin: 0;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .header-right { 
+            display: flex; 
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-leader { 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            color: white; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            width: 100%;
+            transition: all 0.2s; 
+        }
+        .btn-leader:hover { border-color: #0052FF; background: rgba(0,82,255,0.1); }
+
+        .player-badge { 
+            background: #0a1428; 
+            padding: 0.75rem 1.25rem; 
+            border-radius: 16px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .player-name { font-weight: 800; color: #00FF85; font-size: 0.95rem; }
+        .player-record { display: flex; gap: 0.75rem; font-size: 0.85rem; font-weight: 700; }
+        .win-count { color: #00FF85; }
+        .loss-count { color: #ff3e3e; }
+
+        .lobby-grid { 
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .lobby-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 24px;
+            padding: 1.5rem;
+        }
+
+        h2 { margin-bottom: 0.5rem; font-size: 1.25rem; font-weight: 800; }
+        .card-desc { color: #888; font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+        input { 
+            width: 100%; 
+            padding: 1.1rem; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            background: #02050d; 
+            color: white; 
+            border-radius: 14px; 
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+        input:focus { outline: none; border-color: #0052FF; }
+
+        .btn-action-primary { 
+            background: #0052FF; 
+            color: white; 
+            border: none; 
+            padding: 1.1rem; 
+            border-radius: 14px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            width: 100%; 
+            transition: all 0.2s; 
+        }
+
+        .challenges-list { display: flex; flex-direction: column; gap: 1rem; }
+        
+        .challenge-item { 
+          background: #0a1428; 
+          padding: 1.25rem; 
+          border-radius: 18px; 
+          border: 1px solid rgba(255,255,255,0.05);
+          display: flex; 
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .opp-info { display: flex; flex-direction: column; }
+        .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #555; font-weight: 800; }
+        .addr { font-family: monospace; font-size: 0.9rem; color: #ddd; }
+
+        .btn-accept { 
+            background: #00C2FF; 
+            color: white; 
+            border: none; 
+            padding: 0.75rem; 
+            border-radius: 10px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            text-align: center;
+        }
+
+        .hint { color: #444; font-size: 0.75rem; margin-top: 1rem; text-align: center; }
+
+        @media (min-width: 768px) {
+            .lobby-container { padding: 3rem; }
+            .lobby-header { flex-direction: row; justify-content: space-between; align-items: center; }
+            .logo { text-align: left; font-size: 2.5rem; }
+            .header-right { flex-direction: row; gap: 2rem; width: auto; }
+            .btn-leader { width: auto; }
+            .player-badge { width: 280px; }
+            .lobby-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+            .challenge-item { flex-direction: row; justify-content: space-between; align-items: center; }
+        }
       `}</style>
         </div>
     )
